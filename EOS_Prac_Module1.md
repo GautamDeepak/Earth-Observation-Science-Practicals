@@ -3,6 +3,7 @@ Prac 1 - Introduction to Google Earth Engine (GEE) and basic JavaScript
 
 
 ### Acknowledgments 
+testing
 - [Earth Engine Beginning Curriculum](https://docs.google.com/document/d/1ZxRKMie8dfTvBmUNOO0TFMkd7ELGWf3WjX0JvESZdOE/edit#!)
 - [Google Earth Engine guide](https://developers.google.com/earth-engine/guides)
 
