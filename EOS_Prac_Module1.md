@@ -109,13 +109,13 @@ print('My height is:', height);
 
 ![Figure 3. DataCatelog](Figures/Prac01_Search.png)
  
- 5. Three categories of results include "Places", "Rasters", and "Tables". Places display the addresses with the name. In the above example, Landsat is also a name of a place in Germany. Rasters list the satellite imageries with that name. In the above example, we have several Landsat rasters. Finally, the Tables displays other types of geographic datasets - these are called vector datasets. You may have learnt about vectors in other courses. If you are after images, you need to select the results under the "Rasters" category.  
+5. Three categories of results include "Places", "Rasters", and "Tables". Places display the addresses with the name. In the above example, Landsat is also a name of a place in Germany. Rasters list the satellite imageries with that name. In the above example, we have several Landsat rasters. Finally, the Tables displays other types of geographic datasets - these are called vector datasets. You may have learnt about vectors in other courses. If you are after images, you need to select the results under the "Rasters" category.  
  
- 6. Try to remember other satellites that were mentioned in the lecture. Try to search for them - can you find them in the GEE? 
+6. Try to remember other satellites that were mentioned in the lecture. Try to search for them - can you find them in the GEE? 
  
 **Question:** *Name three satellites that you think are most useful in the context of Earth Observation and see if the data * 
 
-## 5. Finding information about a specific data/image
+## 4. Finding information about a specific data/image
 
 1. Now that we know how to search for a dataset, let's learn how to gather basic information about a particular dataset that we are interested in. The skill to look for basic information will be important for you in the upcoming Pracs and assignments when you need to modify the scripts. 
 
@@ -137,11 +137,11 @@ print('My height is:', height);
 
 **Question:** *Using the above technique, try finding the data availability, band name, spatial resolution, and wavelength of Landsat-8 images.*
 
-6. Note not all satellite data is available in the GEE and not all the information may be written in the GEE information window. So, for further information, you will need to do a google search. 
+7. Note not all satellite data is available in the GEE and not all the information may be written in the GEE information window. So, for further information, you will need to do a google search. 
 
-7. You can close the window - you don't need to save this weeks script.
+8. You can close the window - you don't need to save this weeks script.
 
-## 6. Single band image visualisation
+## 5. Single band image visualisation
 
 1. Now we are ready to work with the Earth Observation images. First we will work with a single band images and use the NASA SRTM Digital Elevation as an example. The SRTM is actually a radar data that has been converted to raster, so, you can access the data as any other images. The data contains elevation of our entire globe sampled at 30 m resolution. Note that this data was captured back in 2000. 
 
@@ -187,15 +187,15 @@ print(theSRTM);
 Map.addLayer(theSRTM);
 ```
 
-2. The displayed image looks pretty flat grey because the default visualization parameters is displaying the images in a full 16bit range of the data, but the elevation range is much smaller than that in any particular location. We’ll fix it in a moment.
+10. The displayed image looks pretty flat grey because the default visualization parameters is displaying the images in a full 16bit range of the data, but the elevation range is much smaller than that in any particular location. We’ll fix it in a moment.
 
 ![Figure 8. Map SRTM](Figures/Prac02_FlatGrey.png)
 
-3. To get a feeling for the range of elevation (min and max) for proper display, we can query the map to see what elevation looks like on a selected pixel. Select the Inspector tab. Then click on several points on the map to get a feel for the elevation range in this area.
+11. To get a feeling for the range of elevation (min and max) for proper display, we can query the map to see what elevation looks like on a selected pixel. Select the Inspector tab. Then click on several points on the map to get a feel for the elevation range in this area.
 
 ![Figure 8. Inspect SRTM](Figures/Prac02_Inspector.png)
 
-4. Now you can set some more appropriate visualization parameters by adjusting the code as follows (units of the min and max values are in meters above sea level). The method scaling the pixel values to ehnance the visual perception of an image is called image stretching.  What we are doing in below example is displaying any elevation 0 m or lower as darkest and any value 1300 m or above as brightest, all the values between 0 m - 1300 m are displayed in a linear gradient of brightness. There are other methods of image stretching Changing the range of min and max is a technique called image stretching. There are many methods to stretch an image - if you are interested, do a google search for further read.  
+12. Now you can set some more appropriate visualization parameters by adjusting the code as follows (units of the min and max values are in meters above sea level). The method scaling the pixel values to ehnance the visual perception of an image is called image stretching.  What we are doing in below example is displaying any elevation 0 m or lower as darkest and any value 1300 m or above as brightest, all the values between 0 m - 1300 m are displayed in a linear gradient of brightness. There are other methods of image stretching Changing the range of min and max is a technique called image stretching. There are many methods to stretch an image - if you are interested, do a google search for further read.  
 
 ```JavaScript
 // Display with adjusted min/max values
@@ -204,7 +204,7 @@ Map.addLayer(theSRTM, {min:0, max:1300});
 ```
 ![Figure 9. Visualise SRTM](Figures/Prac02_MinMax.png)
 
-5. You will now be able to see the variation in the elevation range with low elevation landscapes in black and the high elevation landscape in white pixels. Layers added to the map will have default names like "Layer 1", "Layer 2", etc. To improve the readability, we can give each layer a human-readable name, by adding a title with the syntax in the following code. Don't forget to click run.
+13. You will now be able to see the variation in the elevation range with low elevation landscapes in black and the high elevation landscape in white pixels. Layers added to the map will have default names like "Layer 1", "Layer 2", etc. To improve the readability, we can give each layer a human-readable name, by adding a title with the syntax in the following code. Don't forget to click run.
 
 ```JavaScript
 // Display with min/max and layer title
@@ -212,7 +212,7 @@ Map.addLayer(theSRTM, {min: 0, max: 1300}, 'Elevation above sea level');
 ```
 ![Figure 10. Rename title](Figures/Prac02_LayerName.png)
 
-6. Now you can also add the colour palette to make the elevation map look colourful and beautiful. Experiment with different colour combinations by changing/setting the palettes as per the example below. In the below example, lower elevations closer to the min value (0 m) are assigned to blue colour, higher elevations closer to max value (1300 m) are assigned to red colour, and the medium elevation closer to 650 m elevation are assigned to yellow colour. Note that you can create as many color palette as you want. 
+14. Now you can also add the colour palette to make the elevation map look colourful and beautiful. Experiment with different colour combinations by changing/setting the palettes as per the example below. In the below example, lower elevations closer to the min value (0 m) are assigned to blue colour, higher elevations closer to max value (1300 m) are assigned to red colour, and the medium elevation closer to 650 m elevation are assigned to yellow colour. Note that you can create as many color palette as you want. 
 
 ```Javascript
 // Display with min/max, layer title, and color scale
@@ -220,23 +220,23 @@ Map.addLayer(theSRTM, {min: 0, max: 1300, palette: ['blue', 'yellow', 'red']}, '
 ```
 ![Figure 13. Colour scale elevation](Figures/Prac02_ColorElevation.png)
 
-8. Below is the draped view that I created which I think looks great for any reports. I created the view by 1) disabling all the layer that you dont need, 2) changing opacity of your display layer, 3) enabling terrain view on your map.
+15. Below is the draped view that I created which I think looks great for any reports. I created the view by 1) disabling all the layer that you dont need, 2) changing opacity of your display layer, 3) enabling terrain view on your map.
 
 ![Figure 13. Prac02_draped_view](Figures/Prac02_draped_view.png)
 
-7. That's how you display the single band image. There are several computation specific to elevation map that you can perform in GEE - but we are not going to go there. If you are interested check out the commands in Docs tab under ee.Terrain and feel free to discuss with me. In fact, Docs tab is your friend when you need help and want to learn more about commands.
+16. That's how you display the single band image. There are several computation specific to elevation map that you can perform in GEE - but we are not going to go there. If you are interested check out the commands in Docs tab under ee.Terrain and feel free to discuss with me. In fact, Docs tab is your friend when you need help and want to learn more about commands.
 
 ![Figure 13. Prac02_Docs](Figures/Prac02_Docs.png)
 
-8. Note that JavaScript (or any other script) is strict in syntax, any error in syntax means the script won't run. For example, if you forgot to type a single ' or , or : or ) or ( in the above script, the script won't run. If you typed "map.addLayer" instead of "Map.addLayer", the script will not work. Just remember that if your script is not working, most often the error lies in the syntax. You can now comment out all the intermediatory steps we took to get to our final display.
+17. Note that JavaScript (or any other script) is strict in syntax, any error in syntax means the script won't run. For example, if you forgot to type a single ' or , or : or ) or ( in the above script, the script won't run. If you typed "map.addLayer" instead of "Map.addLayer", the script will not work. Just remember that if your script is not working, most often the error lies in the syntax. You can now comment out all the intermediatory steps we took to get to our final display.
 
-10. Don't forget to save your script. Click on Save button or use CTRL+S in the windows computer (Command+S in Mac) to save your script. 
+18. Don't forget to save your script. Click on Save button or use CTRL+S in the windows computer (Command+S in Mac) to save your script. 
 
 ![Figure 13. Prac02_Save](Figures/Prac02_Save.png)
 
 **Question**: *Now, I want you to zoom out of the current view and navigate to different places around the globe where you may find interesting landscape features. You will learn that whenever you navigate to new area, the min/max value in your visualisation parameter needs to be changed. Some suggestion for you to have a look at are - the Kakadu national park near Darwin, NT; the Tibetan Pleatue and Himalayan range, and your home town. Have fun.* 
 
-## 3. Visualising the multi-band image
+## 6. Visualising the multi-band image
 
 1. For the visualisation of multi-band images, we will use a multi-spectral image collected by the European Space Agency's Sentinel-2 satellite. Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover, as well as observation of inland waterways and coastal areas. We will use an image collected over Kakadu National Park, Australia.
 
@@ -262,7 +262,7 @@ var anImage = ee.Image("COPERNICUS/S2/20180422T012719_20180422T012714_T52LHM");
 
 **Question: ***How are the Red, Green, and Blue bands called in the above Sentinel-2 image?*
 
-6. Bands 2, 3 and 4 are the blue, green and red bands respectively. Therefore if we wish to view a true-colour rendering of the image - i.e. an RGB composite, we need to place Band 4 into the red channel, Band 3 into the green channel, and Band 2 into the blue channel. We can do this with the code below - take careful note of the syntax for specifying the band arrangement.
+5. Bands 2, 3 and 4 are the blue, green and red bands respectively. Therefore if we wish to view a true-colour rendering of the image - i.e. an RGB composite, we need to place Band 4 into the red channel, Band 3 into the green channel, and Band 2 into the blue channel. We can do this with the code below - take careful note of the syntax for specifying the band arrangement.
 
 ```JavaScript
 // Add RGB composite to map
@@ -271,16 +271,16 @@ Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
 
 ![Figure 6. First RGB](Figures/Prac02_RGBComposite.png)
 
-7. **Take a moment** to play with and understand the above Map.addLayer script. This is super important. Also compare with the Map.addLayer script we used for single band image. Note the differences in the syntax for the single- and multi-band image: in the single band image, we don't need to define "bands" which we need to do for multi-band image (otherwise GEE won't know which band to display for us). The colour in the single band image comes from how we define "palettes" whereas the colour in multi-band image comes from the order in which the 3 bands are fed in (i.e. Red first, Green second, and Blue last results in RGB display). 
+6. **Take a moment** to play with and understand the above Map.addLayer script. This is super important. Also compare with the Map.addLayer script we used for single band image. Note the differences in the syntax for the single- and multi-band image: in the single band image, we don't need to define "bands" which we need to do for multi-band image (otherwise GEE won't know which band to display for us). The colour in the single band image comes from how we define "palettes" whereas the colour in multi-band image comes from the order in which the 3 bands are fed in (i.e. Red first, Green second, and Blue last results in RGB display). 
 ![Figure 17. NDVI map](Figures/Prac02_MapAddLayer.png)
 
-8. The min/max of 0-3000 is about right for the Sentinel-2 - this results in a view similar to what we would see looking out of the window of an aeroplane. You can play with the min/max value to see the change in contrast. The band combination ['B4','B3','B2'] displays the RGB composite. Zoom in a bit closer using the wheel of your mouse. These images are a fantastic resource for environmental mapping and monitoring. The visible spectrum bands are at 10 m spatial resolution, and the revisit time of the satellite constellation is every 6 days in this region. Thanks, ESA!
+7. The min/max of 0-3000 is about right for the Sentinel-2 - this results in a view similar to what we would see looking out of the window of an aeroplane. You can play with the min/max value to see the change in contrast. The band combination ['B4','B3','B2'] displays the RGB composite. Zoom in a bit closer using the wheel of your mouse. These images are a fantastic resource for environmental mapping and monitoring. The visible spectrum bands are at 10 m spatial resolution, and the revisit time of the satellite constellation is every 6 days in this region. Thanks, ESA!
 
 ![Figure 7. Zoomed RGB](Figures/Prac02_Zoomed.png)
 
-9. Interpret the image taking into consideration when the image was captured. In the wet season, Northern Australia is vibrant with photosynthetically active vegetations, the surge in flood plains and water bodies. While in the dry season, the vegetation dries up,  bush fire takes hold, and water bodies retreat. 
+8. Interpret the image taking into consideration when the image was captured. In the wet season, Northern Australia is vibrant with photosynthetically active vegetations, the surge in flood plains and water bodies. While in the dry season, the vegetation dries up,  bush fire takes hold, and water bodies retreat. 
 
-##4. Color composite and band combination
+##7. Color composite and band combination
 
 1. Different landcover types on the earth surface such as water, forest, grassland, desert, bare land etc interact differently with electromagnetic energy. These features absorb and reflect different amount of electromagnetic energy. As a result, the spectral information recorded by the satellite for those landcover types varies. For example, the spectral value in the near-infrared region for vegetation is quite high while for the water is quite low. To find out more about how different landcover interact with the electromagnetic energy, you can use the Inspector tool which is located in the Console Panel - left hand tab. Click on the Inspector tab and then click on the image in the map view. The satellite recorded band values for the pixel you clicked will be displayed in the Inspector window. Navigate the displayed true color composite and inspect pixels associated with vegetation, water, and baresoil. Using screen capture, place the three histograms (as below) together and think about why and how their band reflectance values differ. 
 
@@ -328,7 +328,7 @@ Map.addLayer(anImage, falseLandWaterViz, "false-color Land/Water");
 
 6. Now I would like you to try out different color composites and see what combination could be useful to highlight different features in landscape. In [this link](https://gisgeography.com/sentinel-2-bands-combinations/) you will find some color combination for Sentinel 2 - dont worry about the one that use band arithmetics, we will learn them later. 
 
-## 5. Complete script 
+## 8. Complete script 
 ```JavaScript
 // print the image information to the console
 print(theSRTM);
