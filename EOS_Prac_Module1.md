@@ -1,5 +1,5 @@
 # Earth Observation Science (GEOM2084)
-Prac 1 - Getting started with Google Earth Engine, image visualisation, and band combination
+Module 1 Prac - Getting started with Google Earth Engine, image visualisation, and band combination
 
 
 ### Acknowledgments 
@@ -19,8 +19,7 @@ The learning objectives of this Prac are:
 - to learn navigate within the GEE.
 - to be able to look for specific data/image and associated metadata.
 - to learn visualisation of single-band images.
-- to learn visualisation of multi-band images.
-<!-- This content will not appear in the rendered Markdown -->
+- to learn visualisation of multi-band images.<!-- This content will not appear in the rendered Markdown -->
 - to apply color composite to dispalay a desired band combination. 
 
 ---------------------------------------------------
