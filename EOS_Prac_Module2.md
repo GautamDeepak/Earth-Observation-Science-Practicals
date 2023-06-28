@@ -58,7 +58,7 @@ print(theSRTM);
 Map.addLayer(theSRTM);
 ```
 
-2. The displayed map will look pretty flat grey because the default visualization parameters map the full 16­bit range of the data onto the black-white range, but the elevation range is much smaller than that in any particular location. We’ll fix it in a moment.
+2. The displayed map will look pretty flat grey because the default visualization parameters map the full 16bit range of the data onto the black-white range, but the elevation range is much smaller than that in any particular location. We’ll fix it in a moment.
 
 ![Figure 8. Map SRTM](Figures/Prac02_FlatGrey.png)
 
@@ -75,7 +75,7 @@ Map.addLayer(theSRTM, {min:0, max:300});
 ```
 ![Figure 9. Visualise SRTM](Figures/Prac02_MinMax.png)
 
-5. You will now be able to see the variation in the elevation range with low values in black and the highest points in white. Layers added to the map will have default names like "Layer 1", "Layer 2", etc. To improve the readability, we can give each layer a human­-readable name, by adding a title with the syntax in the following code. Don't forget to click run.
+5. You will now be able to see the variation in the elevation range with low values in black and the highest points in white. Layers added to the map will have default names like "Layer 1", "Layer 2", etc. To improve the readability, we can give each layer a human-readable name, by adding a title with the syntax in the following code. Don't forget to click run.
 
 ```JavaScript
 // Display with min/max and layer title
