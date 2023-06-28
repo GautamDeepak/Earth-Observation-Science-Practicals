@@ -375,7 +375,7 @@ var falseLandWaterViz= {
 Map.addLayer(anImage, falseLandWaterViz, "false-color Land/Water");
 ```
 -------
-### 9. Summary
+## 9. Summary
 Today is the first module of your journey in using Earth Engine for Earth Observation. Today we covered the very basics of the GEE interface, learnt basic JavaScript, and learned how to search for and find a broad range of remotely sensed datasets, learnt how to visualise single- and multi-band images and then learnt how to produce our own color combination. Next module we will look into a indices and spectral reflectance images. 
 
 I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
