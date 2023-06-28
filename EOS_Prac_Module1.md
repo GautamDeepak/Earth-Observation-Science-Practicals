@@ -234,10 +234,11 @@ Map.addLayer(theSRTM, {min: 0, max: 1300, palette: ['blue', 'yellow', 'red']}, '
 ![Figure 13. Prac02_Save](Figures/Prac02_Save.png)
 
 **Question**: *Now, I want you to zoom out of the current view and navigate to different places around the globe where you may find interesting landscape features. You will learn that whenever you navigate to new area, the min/max value in your visualisation parameter needs to be changed. Some suggestion for you to have a look at are - the Kakadu national park near Darwin, NT; the Tibetan Pleatue and Himalayan range, and your home town. Have fun.* 
-
+<details>
+  <summary>Visualising the multi-band image</summary>
 ## 6. Visualising the multi-band image
 
-1. For the visualisation of multi-band images, we will use a multi-spectral image collected by the European Space Agency's Sentinel-2 satellite. Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover, as well as observation of inland waterways and coastal areas. We will use an image collected over Kakadu National Park, Australia.
+1. For the visualisation of multi-band images, we will use a multi-spectral image collected by the European Space Agency's Sentinel-2 satellite. Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover, as well as observation of inland waterways and coastal areas. For this part of the Prac we will work with the image captured over Kakadu National Park, NT, Australia.
 
 2. Let's navigate to the area of interest (Kakadu) by copying the code below into the Code Editor and clicking "Run". Remember that the line starting with // is a note to ourselves and others, and is not processed (we call this a comment). The numbers in brackets are the longitude, latitude, and zoom level (range is from 1 to 22). This is another way of navigation to a known location - previously we navigated by using our mouse or searching for the name of the place. You can tick on/off the existing elevation layers as you need.
 
@@ -278,7 +279,7 @@ Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
 ![Figure 7. Zoomed RGB](Figures/Prac02_Zoomed.png)
 
 8. Interpret the image taking into consideration when the image was captured. In the wet season, Northern Australia is vibrant with photosynthetically active vegetations, the surge in flood plains and water bodies. While in the dry season, the vegetation dries up,  bush fire takes hold, and water bodies retreat. 
-
+</details>
 ##7. Color composite and band combination
 
 1. Different landcover types on the earth surface such as water, forest, grassland, desert, bare land etc interact differently with electromagnetic energy. These features absorb and reflect different amount of electromagnetic energy. As a result, the spectral information recorded by the satellite for those landcover types varies. For example, the spectral value in the near-infrared region for vegetation is quite high while for the water is quite low. To find out more about how different landcover interact with the electromagnetic energy, you can use the Inspector tool which is located in the Console Panel - left hand tab. Click on the Inspector tab and then click on the image in the map view. The satellite recorded band values for the pixel you clicked will be displayed in the Inspector window. Navigate the displayed true color composite and inspect pixels associated with vegetation, water, and baresoil. Using screen capture, place the three histograms (as below) together and think about why and how their band reflectance values differ. 
