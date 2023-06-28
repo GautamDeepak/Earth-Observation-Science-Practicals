@@ -22,14 +22,14 @@ The learning objectives of this Prac are:
 - to learn visualisation of multi-band images.<!-- This content will not appear in the rendered Markdown -->
 - to apply color composite to dispalay a desired band combination. 
 
-### Table of Contents  
-[1. Navigate through the GEE environment interface.](#headers)  
-
-
+### Table of Contents
+[1. Navigate through the GEE environment interface.](#1.-Navigate-through-the-GEE-environment-interface.)
+[Example](#example)
+[Example](#example)
+[Example](#example)
 ---------------------------------------------------
-<a name="headers"/>
-## 1. Navigate through the GEE environment interface.
 
+## 1. Navigate through the GEE environment interface.
 1. Open up the Google Earth Engine environment by going to this address in the **Chrome browser**: [https://code.earthengine.google.com](https://code.earthengine.google.com). You should see the GEE landing page as below. This suggests that your signup and activation of the Earth Engine account went through well. 
 
 ![Figure 1. The Google Earth Engine environment](Figures/Prac01_LandingPage.png)
