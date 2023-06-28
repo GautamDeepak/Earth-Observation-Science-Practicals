@@ -24,6 +24,7 @@ The learning objectives of this Prac are:
 
 ### Table of Contents
 [1. Navigate through the GEE environment interface.](#1.-Navigate-through-the-GEE-environment-interface.)
+
 [2. A basic introduction to JavaScript](#2.-A-basic-introduction-to-JavaScript)
 [Example](#example)
 [Example](#example)
