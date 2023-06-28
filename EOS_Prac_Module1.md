@@ -14,7 +14,7 @@ Once registered you can access the Earth Engine environment [here:](https://code
 
 Google Earth Engine uses the JavaScript programming language. We will cover the very basics of this language during this course. If you would like more detail you can read through the introduction provided here: [JavaScript background](https://developers.google.com/earth-engine/tutorials/tutorial_js_01)
 
-### Objective
+### Learning objectives
 The learning objectives of this Prac are:
 - to learn navigate within the GEE.
 - to be able to look for specific data/image and associated metadata.
