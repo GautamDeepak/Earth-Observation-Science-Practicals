@@ -1,17 +1,23 @@
-# Introductory Remote Sensing (ENV202/502)
-Prac 2 - Image visualisation (single- and multi-band)
+# Earth Observation Science (GEOM2084)
+Module 2 Prac - Spectral reflectance and indices
 
 
 ### Acknowledgments 
 - [Earth Engine Beginning Curriculum](https://docs.google.com/document/d/1ZxRKMie8dfTvBmUNOO0TFMkd7ELGWf3WjX0JvESZdOE/edit#!)
 - [Google Earth Engine guide](https://developers.google.com/earth-engine/guides)
 
-### Objective
-
-The objective of this Prac is to get you started with satellite images. By the end of this exercise, you will learn the visualisation skills of the satellite images. We will work on visualisation of single-band image (using NASA SRTM as an example) and multi-band image (using Sentinel-2 as an example). Using these skills, you will be able to visualise any other optical images in the Google Earth Engine.
+### Learning objectives
+The learning objectives of this Prac are:
+- to be able to find cloud-free image from historical archive
+- to be able to extact and critically assess the spectral reflectance of landscape features. 
+- to be able to compute and interpret the spectral indices for such as vegetation, water.
 
 ---------------------------------------------------
-## 1. Getting started with the image
+## 1. Working with image collection - IRS03
+
+## 2. Plotting spectral reflectance of landscape features - IRS04
+
+## 2. Calculating spectral indices - IRS05
 
 1. Open up the Google Earth Engine environment by going to this address in the **Chrome browser**: [https://code.earthengine.google.com](https://code.earthengine.google.com).
 
@@ -144,10 +150,7 @@ Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
 
 10. Don't forget to save your script. You can use CTRL+S in the windows computer (Command+S in Mac) to save your script. 
 
-## 4. Exercise for you
-1. Using the scripts/knowledge we learnt today, try displaying the landsat-8 true color image from Darwin region. Use this image name "LANDSAT/LC08/C01/T1_TOA/LC08_106069_20210511". 
-
-## 5. The complete script used in this Prac
+## 8. Complete script 
 ```JavaScript
 // print the image information to the console
 print(theSRTM);
@@ -156,14 +159,13 @@ print(theSRTM);
 Map.addLayer(theSRTM);
 
 // Display with adjusted min/max values
-Map.addLayer(theSRTM, {min:0, max:300});
+Map.addLayer(theSRTM, {min:0, max:1300});
 
 // Display with min/max and layer title
-Map.addLayer(theSRTM, {min: 0, max: 300}, 'Elevation above sea level');
+Map.addLayer(theSRTM, {min: 0, max: 1300}, 'Elevation above sea level');
 
 // Display with min/max, layer title, and color scale
-Map.addLayer(theSRTM, {min: 0, max: 300, palette: ['blue', 'yellow', 'red']}, 'Color scale elevation above sea level');
-
+Map.addLayer(theSRTM, {min: 0, max: 1300, palette: ['blue', 'yellow', 'red']}, 'Color scale elevation above sea level');
 
 //Navigate to the area of interest
 Map.setCenter(132.5685, -12.6312, 8);
@@ -174,13 +176,35 @@ var anImage = ee.Image("COPERNICUS/S2/20180422T012719_20180422T012714_T52LHM");
 
 // Add RGB composite to map
 Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
+
+//Define false-colour visualization parameters.
+var falseInfraredViz = {
+  bands: ["B8", "B4", "B3"],
+  min: 0,
+  max: 3000
+  };
+
+// Add the image to the map, using the visualization parameters.
+Map.addLayer(anImage, falseInfraredViz, "false-color composite");
+
+//Define land/water false-colour visualization parameters.
+var falseLandWaterViz= {
+  bands: ["B8", "B11", "B4"],
+  min: 0,
+  max: 3000,
+  };
+
+// Add the image to the map, using the visualization parameters.
+Map.addLayer(anImage, falseLandWaterViz, "false-color Land/Water");
 ```
 -------
-### Thank you
+## 9. Summary
+Today is the first module of your journey in using Earth Engine for Earth Observation. Today we covered the very basics of the GEE interface, learnt basic JavaScript, and learned how to search for and find a broad range of remotely sensed datasets, learnt how to visualise single- and multi-band images and then learnt how to produce our own color combination. Next module we will look into a indices and spectral reflectance images. 
 
-I hope you found this prac useful. A recorded video of this prac can be found on your learnline.
-Coming up next week: Next week visualisation and computation
+I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
 
-#### Kind regards, Deepak Gautam
+Thank you
+Kind regards, 
+Deepak Gautam
 ------
-### The end
+
