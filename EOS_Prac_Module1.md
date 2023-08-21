@@ -279,7 +279,7 @@ Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
 
 8. Interpret the image taking into consideration when the image was captured. In the wet season, Northern Australia is vibrant with photosynthetically active vegetations, the surge in flood plains and water bodies. While in the dry season, the vegetation dries up,  bush fire takes hold, and water bodies retreat. 
 
-##7. Color composite and band combination
+## 7. Color composite and band combination
 
 1. Different landcover types on the earth surface such as water, forest, grassland, desert, bare land etc interact differently with electromagnetic energy. These features absorb and reflect different amount of electromagnetic energy. As a result, the spectral information recorded by the satellite for those landcover types varies. For example, the spectral value in the near-infrared region for vegetation is quite high while for the water is quite low. To find out more about how different landcover interact with the electromagnetic energy, you can use the Inspector tool which is located in the Console Panel - left hand tab. Click on the Inspector tab and then click on the image in the map view. The satellite recorded band values for the pixel you clicked will be displayed in the Inspector window. Navigate the displayed true color composite and inspect pixels associated with vegetation, water, and baresoil. Using screen capture, place the three histograms (as below) together and think about why and how their band reflectance values differ. 
 
