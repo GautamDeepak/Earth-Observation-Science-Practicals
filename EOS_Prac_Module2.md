@@ -10,10 +10,10 @@ Module 2 Prac - Spectral reflectance and indices
 The learning objectives of this Prac are:
 - to be able to find cloud-free image from historical archive
 - to be able to extact and critically assess the spectral reflectance of landscape features. 
-- to be able to compute and interpret the spectral indices for such as vegetation, water.
+- to be able to compute and interpret the spectral indices for landscape features.
 
 ---------------------------------------------------
-## 1. Working with image collection - IRS03
+## 1. Working with image collection
 
 ## 2. Plotting spectral reflectance of landscape features - IRS04
 
