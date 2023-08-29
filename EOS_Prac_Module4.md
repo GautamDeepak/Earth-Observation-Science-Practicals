@@ -1,5 +1,5 @@
 # Earth Observation Science (GEOM2084)
-Module 3 Prac - Image classification and accuracy analysis
+Module 4 Prac - Drone-based multispectral images for agricultural application
 
 
 ### Acknowledgments 
