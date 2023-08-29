@@ -7,200 +7,401 @@ Module 2 Prac - Spectral reflectance and indices
 - [Google Earth Engine guide](https://developers.google.com/earth-engine/guides)
 
 ### Learning objectives
-The learning objectives of this Prac are:
-- to be able to find cloud-free image from historical archive
-- to be able to extact and critically assess the spectral reflectance of landscape features. 
-- to be able to compute and interpret the spectral indices for landscape features.
+The learning objectives of this Module are:
+- to filter through the historical archive of Earth Observation images to find a cloud-free image.
+- to extract and critically assess the spectral reflectance of landscape features. 
+- to compute and interpret the spectral indices for landscape features.
 
 ---------------------------------------------------
-## 1. Working with image collection
+## 1. Accessing image collection
 
-## 2. Plotting spectral reflectance of landscape features - IRS04
+1. Just above the Coding panel in the search bar. Search for ‘Cairns’ in this GEE search bar, and click the result to pan and zoom the map to Cairns. Note the results populated under the "places" refers to the actual location on earth.
 
-## 2. Calculating spectral indices - IRS05
 
-1. Open up the Google Earth Engine environment by going to this address in the **Chrome browser**: [https://code.earthengine.google.com](https://code.earthengine.google.com).
+![Figure 1. Navigating to the area of interest in Google Earth Engine](Figures/Prac03_SearchDarwin.png)
 
-2. Let's navigate to the Darwin area where we will be working today. Use your mouse left click and drag on the mapping area to pan to Darwin. You can use the mouse wheel or + - button to zoom in or out. The navigation in the mapping pane is very much like google maps.
 
-![Figure 2. Zoom to Darwin](Figures/Prac02_NavigateToDarwin.png)
+2. Now, let's make use of the geometry tool available to us in GEE. There is marker geometry (to define a point), line geometry (to define a line), shape geometry (to define a polygon with any number of sides) and rectangle geometry (to define a rectangle). Let's use the marker geometry to create a point on the Cairns CBD. You need to click on the marker geometry and then click on where you want to create the point. Once you create the point, you will see the point geometry being added to your Coding panel as a variable (var) under the Imports heading. The use of this marker will come in later when we want to access the image from this location.
 
-3. Now let's search for an elevation dataset. In the search bar, type in "elevation" or "SRTM" and click on the "NASA SRTM Digital Elevation 30m" result to show the dataset description. To learn more about this dataset, check out the blurb and associated resources in the learnline.
 
-![Figure 4. Search for elevation data](Figures/Prac02_SearchElevation.png)
+![Figure 2. Creating a geometry point](Figures/Prac03_DrawPoint.png)
 
-4. View the information on the dataset - read under "description" and "bands". Once you are happy, click on "Import", which imports the image to the Imports section at the top of your script.
+3. Rename the default name of the point ‘geometry’ to any name you want. Let's call it ‘roi’ (roi means "region of interest"). Rename by clicking the import name ‘geometry’ to 'roi'.
 
-![Figure 4. View elevation data source and import](Figures/Prac02_ViewInfo.png)
+![Figure 3. Renaming a geometry point](Figures/Prac03_RenameCampus.png)
 
-**Question:** *How many bands did this data have and what are their spatial resolution?*
 
-5. Rename the default variable name "image" to anything you like. The naming convention is that the name should be short but descriptive enough for you to understand when you revisit this script later in the future. Here we will rename the image "theSRTM". This means we agreed with the GEE environment that "theSRTM" refers to the SRTM elevation dataset.
+4. Search for ‘Landsat-8’ in the search bar. In the results section, you will see ‘USGS Landsat 8 Collection 2 Tier 1 TOA Reflectance’ - click on it and then click the ‘Import’ button. Here, from previous pracs, you know that the detailed information of the image is available to you in the description window. 
 
-![Figure 5. Rename image](Figures/Prac02_Rename.png)
+![Figure 4. Importing Sentinel-2 data](Figures/Prac03_Import_Sentinel.png)
 
-6. We used the print command in the last prac. Here let's use the print command to print the image object to the console by copying the script below into the code editor, and clicking "run" :
 
-```JavaScript
-// print the image information to the console
-print(theSRTM);
-```
-![Figure 6. Print SRTM](Figures/Prac02_PrintRun.png)
+5. After clicking import, Landsat-8 will be added to our Imports in the Coding panel as a variable. It will be listed below our campus geometry point with the default name "imageCollection". Let's rename this "imageCollection" to “L8” by clicking on it and typing "L8". Note that you can rename it to any name you want. 
 
-7. The print command just prints the textual information, not the image. Browse through the information that was printed to the console window. Open the “bands” section to show the band named “elevation”. Note that all this same information is automatically available for all variables in the Imports section.
+![Figure 5. Importing Sentinel-2 data](Figures/Prac03_RenameSent2.png)
 
-![Figure 7. SRTM in console](Figures/Prac02_BrowsePrint.png)
+6. It is important to understand that we have now added access to the full Landsat-8 image collection (i.e. every image that has been collected to date) to our script. For this exercise we don't want to load all these images - we want a single cloud-free image over Cairns region. As such, we can now filter the image collection with a few criteria, such as time of acquisition, spatial location and cloud cover.
 
-8. Always know that you can look into the image description or printed information, or within the import section to look into more detail about the image. 
 
-**Question**: *From the image information that is printed to you, and the description window that was available to you, can you tell: how many bands does this image have, when this image was acquired, what is the spatial resolution of all the bands, what are the name of all the bands?*
+## 2. Filtering through the historical archive
 
-## 2. Visualising the single-band image
-
-1. Note that we are currently working with the single band image. Use the Map.addLayer() method to add/display the image to the interactive map. We will start simple, without using any of the optional parameters. After adding the script, hit "run" again. Every time you make changes to your script, you will need to run the script again to apply the changes.
+1. To achieve this filtering we need to use a bit of coding. In the JavaScript, two backslashes (//) indicate comment lines and are ignored in actual processing steps. We use // to write notes to ourselves in our code, so that we (and others who might want to use our code) can understand why we have done certain things. 
 
 ```JavaScript
-// Add default display to the mapping layer
-Map.addLayer(theSRTM);
+// Before using any new variable you need to define the variable using command "var" as below
+    var anImage = ee.Image(L8
+
+    // L8 is an image collection so lets filter the collection by the the date range we are interested in
+    .filterDate("2013-03-18", Date.now())
+
+    // Next we include a geographic filter to narrow the search to images at the location of our point
+    .filterBounds(roi)
+
+    // Next we will also sort the collection by a metadata property, in our case cloud cover is a very useful one
+    .sort("CLOUD_COVER")
+	
+    // Now lets select the first image out of this collection - i.e. the least cloudy image in the date range and over the Cairns
+    .first());  //Note that upto here was one line of script, hence, no use colon
+
+// And let's print the image to the Console.
+print("A Landsat-8 scene:", anImage);
 ```
 
-2. The displayed map will look pretty flat grey because the default visualization parameters map the full 16bit range of the data onto the black-white range, but the elevation range is much smaller than that in any particular location. We’ll fix it in a moment.
+2. You need to copy the entire code above and paste it into the GEE code editor. Then click the "Run" button and watch Earth Engine do its magic...... This code will search the full Landsat-8 archive (2013 to present), look for images acquired over the Cairns region, sort them according to the percentage cloud cover, and then return the least cloudy image for us. Information relating to this image will be printed to the Console, where it is listed as "A Landsat-8 scene" with some details about that scene(LANDSAT/LC08/C02/T1_TOA/LC08_096072_20130702). We know from the image ID that it was collected on the 2nd July 2013. (Note you may end up with a different cloud-free image)
 
-![Figure 8. Map SRTM](Figures/Prac02_FlatGrey.png)
+![Figure 6. Filtering the collection](Figures/Prac03_Filtering.png)
 
-3. To get a feeling for the range of elevation (min and max) for proper display, we can query the map to see what elevation looks like on a selected pixel. Select the Inspector tab. Then click on several points on the map to get a feel for the elevation range in this area.
 
-![Figure 8. Inspect SRTM](Figures/Prac02_Inspector.png)
+3. **Take a moment** to play with and understand the above filtering script. Use the figure below as a guide
+![Figure 16. NDVI map](Figures/Prac03_FilteringExample.png)
 
-4. Now you can set some more appropriate visualization parameters by adjusting the code as follows (units of the min and max values are in meters above sea level):
+4. **Self-assessment questions:** Try modifying the above script to answer the questions. Discuss in the discussion board with your classmates if you are stuck. 
+- *What do the numbers within the filterDate() represent?* 
+- *Think about what would happen if you removed or commented out the filterDate command?*
+- *Modify the above script to get an image from last - month. Can you do that?*
+- *What does filterBounds represent?*
+- *What will happen if you remove or comment out the filterBounds() command.*
+- *Where did we get the keyword "CLOUD_COVER" to sort the images.*
+- *What will happen if you remove the ".first()" command?*
+- *How many Landsat-8 images has been collected since the launch of Landsat-8 and until the end of last year?*
+- *How many times has the roi been captured in the Landsat-8 mission until the end of last year?*
+- *How many images does Landsat-8 collect in a day?*
+- *How many images does Landsat-8 require to cover the entire planet?*
+
+
+5. Now we have refined the entire image collection to a single image called "anImage". To view this image, we need to add it to our mapping layer. Before doing that, however, let's define how we want to display the image. Let’s start with a true colour representation by adding the following lines of script and clicking "Run".
 
 ```JavaScript
-// Display with adjusted min/max values
-Map.addLayer(theSRTM, {min:0, max:300});
-
-```
-![Figure 9. Visualise SRTM](Figures/Prac02_MinMax.png)
-
-5. You will now be able to see the variation in the elevation range with low values in black and the highest points in white. Layers added to the map will have default names like "Layer 1", "Layer 2", etc. To improve the readability, we can give each layer a human-readable name, by adding a title with the syntax in the following code. Don't forget to click run.
-
-```JavaScript
-// Display with min/max and layer title
-Map.addLayer(theSRTM, {min: 0, max: 300}, 'Elevation above sea level');
-```
-![Figure 10. Rename title](Figures/Prac02_LayerName.png)
-
-6. Now you can also add the colour palette to make the elevation map look colourful and beautiful. Experiment with different colour combinations by changing/setting the palettes as per the example below. In the below example, lower elevations closer to the min value (0 m) are assigned to blue colour, higher elevations closer to max value (300 m) are assigned to red colour, and the medium elevation closer to 150 m elevation are assigned to yellow colour.
-
-```Javascript
-// Display with min/max, layer title, and color scale
-Map.addLayer(theSRTM, {min: 0, max: 300, palette: ['blue', 'yellow', 'red']}, 'Color scale elevation above sea level');
-```
-![Figure 13. Colour scale elevation](Figures/Prac02_ColorElevation.png)
-
-7. That's how you display the single band image. The above line of the script is all you need. Note that JavaScript is sensitive to syntax, any error in syntax means the script won't run. For example, if you forgot to type a single ' or , or : or ) or ( in the above script, the script won't run. What you can play with and change in the above script are: theSRTM, 0, 300, blue, yellow, red, and Color scale elevation above sea level. 
-
-8. Navigate to Kakadu national park where we have beautiful elevation changes. Try adjusting the min/max for better visualisation. Again, navigate to the Tibetan Pleatue and Himalayas, where you will see high topography over 3000 m. Try adjusting the min/max for better visualisation. Also, navigate to your home location and check out the elevation in the landscapes there.  
-
-## 3. Visualising the multi-band image
-1. For the visualisation of multi-band images, we will use a multi-spectral image collected by the European Space Agency's Sentinel-2 satellite. Sentinel-2 is a wide-swath, high-resolution, multi-spectral imaging mission supporting Copernicus Land Monitoring studies, including the monitoring of vegetation, soil and water cover, as well as observation of inland waterways and coastal areas. We will use an image collected over Kakadu National Park, Australia.
-
-2. Let's navigate to the area of interest (Kakadu) by copying the code below into the Code Editor and clicking "Run". Remember that the line starting with // is a note to ourselves and others, and is not processed (we call this a comment). The numbers in brackets are the longitude, latitude, and zoom level (range is from 1 to 22). This is another way of navigation - previously we navigated by using our mouse. You can tick on/off the existing elevation layers as you need.
-
-```JavaScript
-//Navigate to the area of interest
-Map.setCenter(132.5685, -12.6312, 8);
-```
-
-![Figure 1. Navigate to Kakadu](Figures/Prac02_NavigateToKakadu.png)
-
-3. Now that we are in the right place, let's choose a Sentinel-2 image using the code below. Copy and paste into the Code Editor. Copernicus refers to the satellite mission, S2 is short for Sentinel-2, and the long number 20180422T012719_20180422T012714_T52LHM refers to a specific image, defined by date, time and a path and row of the satellite's orbit. Note that I have chosen a single image for this Prac, but we will cover searching for images for specific areas and dates at a later stage. 
-
-```JavaScript
-// Select a specific Sentinel-2 image from the archive
-var anImage = ee.Image("COPERNICUS/S2/20180422T012719_20180422T012714_T52LHM");
-```
-
-4. Running the above script does not do anything visibly new. It simply has imported the Sentinel-2 image into our script. We have done a printing of image information for the SRTM image. Now, I want you to print the image information for the above Sentinel-2 image. (Hint - the SRTM image was referred to as "theSRTM", the Sentinel-2 image is referred to as "anImage"). 
-
-**Question: ***How many bands do the above Sentinel-2 Image have, what are they and what are their spatial resolution and spectral position?*
-
-**Question: ***How are the Red, Green, and Blue bands called in the above Sentinel-2 image (Hint: also look at Prac01)?*
-
-5. Now before we go any further, please save your current script by clicking on the "Save" button. Save it into your course repository so that you can come back to it at any stage, and from any device with a Chrome Browser (Yes, you can even run the script from your mobile phone - how cool is that!!).
-
-![Figure 5. Save your script](Figures/Prac02_Save.png)
-
-6. Getting back to our multi-band image, Bands 2, 3 and 4 are the blue, green and red bands respectively. Therefore if we wish to view a true-colour rendering of the image - i.e. an RGB composite, we need to place Band 4 into the red channel, Band 3 into the green channel, and Band 2 into the blue channel. We can do this with the code below - take careful note of the syntax for specifying the band arrangement.
-
-```JavaScript
-// Add RGB composite to map
-Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
-```
-
-![Figure 6. First RGB](Figures/Prac02_RGBComposite.png)
-
-7. **Take a moment** to play with and understand the above Map.addLayer script. This is super important. Also compare with the Map.addLayer script we used for single band image. Note the differences in the syntax for the single- and multi-band image: in the single band image, we don't need to define "bands" which we need to do for multi-band image (otherwise GEE won't know which band to display for us). The colour in the single band image comes from how we define "palettes" whereas the colour in multi-band image comes from the order in which the 3 bands are fed in (i.e. Red first, Green second, and Blue last results in RGB display). 
-![Figure 17. NDVI map](Figures/Prac02_MapAddLayer.png)
-
-8. The min/max of 0-3000 is about right for the Sentinel-2 - this results in a view similar to what we would see looking out of the window of an aeroplane. You can play with the min/max value to see the change in contrast. The band combination ['B4','B3','B2'] displays the RGB composite. In the coming prac, we will work with other band combinations to reveal various patterns in our landscape that may not be visible to human eyes. Zoom in a bit closer using the wheel of your mouse. These images are a fantastic resource for environmental mapping and monitoring. The visible spectrum bands are at 10 m spatial resolution, and the revisit time of the satellite constellation is every 6 days in this region. Thanks, ESA!
-
-![Figure 7. Zoomed RGB](Figures/Prac02_Zoomed.png)
-
-9. Interpret the image taking into consideration when the image was captured. In the wet season, Northern Australia is vibrant with photosynthetically active vegetations, the surge in flood plains and water bodies. While in the dry season, the vegetation dries up,  bush fire takes hold, and water bodies retreat. 
-
-10. Don't forget to save your script. You can use CTRL+S in the windows computer (Command+S in Mac) to save your script. 
-
-## 8. Complete script 
-```JavaScript
-// print the image information to the console
-print(theSRTM);
-
-// Add default display to the mapping layer
-Map.addLayer(theSRTM);
-
-// Display with adjusted min/max values
-Map.addLayer(theSRTM, {min:0, max:1300});
-
-// Display with min/max and layer title
-Map.addLayer(theSRTM, {min: 0, max: 1300}, 'Elevation above sea level');
-
-// Display with min/max, layer title, and color scale
-Map.addLayer(theSRTM, {min: 0, max: 1300, palette: ['blue', 'yellow', 'red']}, 'Color scale elevation above sea level');
-
-//Navigate to the area of interest
-Map.setCenter(132.5685, -12.6312, 8);
-
-// Select a specific Sentinel-2 image from the archive
-var anImage = ee.Image("COPERNICUS/S2/20180422T012719_20180422T012714_T52LHM");
-
-
-// Add RGB composite to map
-Map.addLayer(anImage,{bands:['B4','B3','B2'], min:0, max:3000}, "True-colour");
-
-//Define false-colour visualization parameters.
-var falseInfraredViz = {
-  bands: ["B8", "B4", "B3"],
+// Define visualization parameters in a JavaScript dictionary for true colour rendering. Bands 4,3 and 2 needed for RGB.
+var trueViz = {
+  bands: ["B4", "B3", "B2"],
   min: 0,
-  max: 3000
+  max: 0.3
+  };
+
+// Add the image to the map, using the visualisation parameters.
+Map.addLayer(anImage, trueViz, "true-colour image");
+```
+
+**Note:** *The above script could have also been written as: -Map.addLayer(anImage, {bands: ["B4", "B3", "B2"], min: 0, max: 0.3 }, "true-colour image");  ... However, we have defined a variable called trueViz and plugged in that variable in the Map.addLayer command*
+
+6. Above script specifies that bands 4,3 and 2 should be used in the RGB composite for a true colour image. After the image appears on the map, you can zoom in and explore Cairns region. We see great detail in the Landsat-8 image, which is at 30m resolution for the selected bands. 
+
+![Figure 7. Adding a true colour image to the map](Figures/Prac03_TrueColor.png)
+
+7. Try moving your marker geometry to a different location (e.g. to Melbourne), run the script and see what happens... You should get a cloud-free image from Melbourne. So, you now have the skills to look for images from anywhere in the globe (by moving your geometry) and from the desired time range (by adjusting the start and end date in the filtering script). Please practice and once you are happy with the filtering and displaying of images, move the marker back to the Cairns region for the steps to follow.
+
+
+
+## 3. Defining geometry regions of different landcover to plot the reflectance curve
+
+1. Alright, now that we have found the image we want to work with, let's define the regions for different landcover that we want to plot the spectral reflectance curve of. Here, let's work with the following landcover types: forest, urban, water, bare land, and agriculture. Hover over the "Geometry Imports", click on ‘new layer’, select the rectangle geometry and draw a rectangular polygon over the waters. After you are done, rename the "geometry" to  "water".
+
+![Figure 2. Make rectangle polygons](Figures/Prac04_WaterPolygon.png)
+
+2. To plot the spectral reflectance curve, we need to change the geometry to feature. Click on the gear icon (settings) next to the water variable in our imported headings. Then, change the 'Import as'  from 'Geometry' to 'Feature'. Use '+ property' and define Property as 'label' and value as the name of the class (e.g. water, urban, forest). Be consistent in the spelling, upper/lower case. 
+
+![Figure 2. Defining Feature and Labels](Figures/Prac04_Feature.png)
+
+3. Now repeat the above step 1 and 2 for other landcover types: forest, urban, bare land, and agriculture. By the end, you should have five landcover types defined as below. Note that having more than one polygons for each landcover type is alright.
+
+![Figure 2. Defining Feature and Labels](Figures/Prac04_AllLandcover.png)
+
+## 4. Plotting the spectral reflectance curve
+
+1. Now specify the bands that you want to use to construct the spectral reflectance curve. The Landsat-8 has 11 bands. You can use all the available bands or use selected bands. Look into the available bands and think about if some bands are useful for a specific landcover type. In the script below, I have used bands 2-7 which include the blue, green, red, NIR, SWIR1 and SWIR2, which suffice for the landcover type we are interested in.
+
+```JavaScript
+//Choose bands that you want to include in the spectral reflectance curve 
+var bandsToPlot = anImage.select('B[2-7]'); 
+```
+
+
+2. We want to chart the spectral reflectance curve of the 5 landcover types together, so, we need to merge all the 5 landcover features into a feature collection. Use the script below. 
+
+```JavaScript
+// Define the feature collection to use to extract the spectral reflectance curve
+var landCoverRegions = ee.FeatureCollection([water,forest,urban,bareland,agriculture ]);
+```
+3. Now we can create a chart variable and then print the chart to the Console. We use the image.regions function to summarise by landcover class region, and the ee.Reducer.mean() function to obtain the mean reflectance value for each landcover class for each band.
+
+
+```JavaScript
+// Create the reflectance chart
+var reflectanceChart = ui.Chart.image.regions({
+    image:bandsToPlot, // the image where to grab the reflectance data from
+    regions:landCoverRegions, // the regions within the image to sample from
+    reducer:ee.Reducer.mean(), // the reducer here we compute mean reflectance
+    seriesProperty: 'label'}); // use the labelproperty we defined earlier as the legend
+
+// Now print the chart. You need to print to see the chart
+print(reflectanceChart);
+
+```
+
+![Figure 3. Chart 1](Figures/Prac04_BasicChart.png)
+
+4. The script prints the reflectance chart into the Console. You can view the chart in the Console or expand the chart into a new tab to view and interact with the chart. You also have the option to download the chart data into CSV format or download the chart figure.
+
+![Figure 3. Chart 1](Figures/Prac04_ExpandedChart.png)
+
+**Question:** *Why does the urban chart have the characteristics of the vegetation chart? i.e. absorption in B4 (Red) and high reflectance in B5 (NIR)?*
+**Question:** *Why does the bareland chart has high reflectance in B6 and B7?*
+**Question:** *Which landcover has more water content - sort in order - bareland, agriculture, forest, urban?*
+
+5. Great we have a chart. We can download the chart data in CSV format and produce our desired graph in excel (you are encouraged to explore visualisation options in excel on your own). The chart in its current form is not easy to read. Let's improve the readability of the above chart by specifying correct labels and titles, ticks, colours, etc. Let's start by defining what x-axis ticks are going to be. e.g. instead of B1, B2, ..., B7 as in the above figure, let's use the actual band wavelengths on the x-axis using this:
+
+```JavaScript
+// Define a list of Landsat-8 wavelengths for the Bands 1-7 to display in X-axis labels.
+var wavelengths = [482, 562, 655, 865, 1609, 2201];
+
+```
+
+**Question:** *Where did I get above wavelength values from?*
+
+6. Now let's define all the other parameters (axis titles, line style, point style) using the script below
+ 
+```JavaScript
+// Define the axis labels, title, linewidth, pointsize and line color.
+var plotOptions = {
+  title: 'Landsat-8  Surface reflectance spectra', // title of the chart
+  hAxis: {title: 'Wavelength (nanometers)'}, // horizontal axis title
+  vAxis: {title: 'Reflectance'}, // vertical axis title
+  lineWidth: 1, // width of the line in the chart
+  pointSize: 4, // display the reflectance values using a poitn sized 4
+  series: { // color of the different lines
+    0: {color: 'blue'}, // Water chart in blue
+    1: {color: 'green'}, // Forest chart in green
+    2: {color: 'red'}, // Urban chart in red
+    3: {color: 'yellow'}, // Bareland chart in yellow
+    4: {color: 'purple'} // Agriculture chart in purple
+}};
+
+```
+
+7. Okay now rechart the spectral reflectance curve (as we did in step 1). But this time around we will use all the chart parameters that we defined in above two steps.  
+
+```JavaScript
+// Create the reflectance chart
+var reflectanceChart1 = ui.Chart.image.regions({
+    image:bandsToPlot, // the image where to grab the reflectance data from
+    regions:landCoverRegions, // the regions within the image to sample from
+    reducer:ee.Reducer.mean(), // the reducer here we compute mean reflectance
+    seriesProperty: 'label', // use the labelproperty we defined earlier as the legend
+    xLabels: wavelengths}) // use wavelength value instead of B1--B7
+    .setOptions(plotOptions);
+// Now print the chart
+print(reflectanceChart1);
+```
+![Figure 4. Chart 2](Figures/Prac04_DetailedChart.png)
+
+8. On the chart's top right corner, you have a pop-up button (highlighted in the previous figure). Click on the button that will open the chart in the next chrome tab. In this tab, as we had earlier, an option to save the figure as PNG or download the raw chart data in CSV. 
+
+9. Look into the chart and think about the spectral characteristics of different landcover types and how different wavelength interacts with the different landcover types. Refer to the lecture and reading materials to develop a detailed understanding. What do you learn from this chart? Do the spectral reflectance curve look similar to what we expect from our textbook understanding of the spectral reflectance curve. Do you see any anomalies (absorption/reflectance) that you find hard to understand? E.g. Why does agriculture have higher NIR reflectance compared to the forest? What factors do you think might induce errors in the spectral reflectance of different landcover? Is your ROI a true representation of the defined landcover - or could you do better? Remember that you can always use image enhancement to better visualise and thus better pick the features. 
+
+## 5. Computation of normalised difference vegetation index (NDVI)
+1. Now we will also use this same image to learn about spectral indices. We learnt about the NDVI index in our lecture. Here, we will learn how to compute and map the NDVI over a landscape region. First, do you recall the formula to compute the NDVI? The formula is (NIR-RED)/(NIR+RED).
+
+2. Now, what you need to know is, to find out how the NIR and Red bands are called in Landsat-8 images. Find that out. Hint hint [image description window, Prac01].
+
+3. Now we are ready to compute the NDVI, we need to use a function available in the GEE called "expression". To read more about the function, you can go to the Docs tab and search or find "ee.Image.expression".
+![Figure 18. polygon](Figures/Prac05_Docs.png)
+
+4. You also need to have the ability to learn about specific functions/commands in GEE by simply googling it. The Google Earth Engine Reference has detailed explanations and examples for most of their functions. In future, if you are stuck with a specific command/function, make sure to look under the Docs tab as well as google it. 
+
+![Figure 18. polygon](Figures/Prac05_Google.png)
+
+5. Paste the following lines below the ones you’ve already added, and click "Run". NDVI values range from 0 to 1, and the higher the value the more "vigorous" the vegetation.
+
+```JavaScript
+//Define variable NDVI from equation
+var ndviImage = anImage.expression(
+  "(NIR - RED) / (NIR + RED)",
+  {
+    NIR: anImage.select("B5"),    // NIR band in Landsat is B5
+    RED: anImage.select("B4")    // Red band in Landsat is B4
+  });
+```
+
+6. If you run the script, you see nothing new happening. This is because we have computed the NDVI but have not asked to display it. To display the NDVI image, we need to use Map.addLayer command. Here, you can use the displaying skills you learned for a single band image in Prac02. The above computed "ndviImage" is a single band image containing NDVI values for each pixel. 
+
+```JavaScript
+// Add the NDVI image to the map, using the visualization parameters.
+Map.addLayer(ndviImage, {min: 0, max: 1}, "NDVI");
+```
+![Figure 18. polygon](Figures/Prac05_NDVI.png)
+
+7. That's our NDVI map, the darker pixel represents a lower NDVI value which is the absence of vegetation. The brighter pixel represents a higher NDVI value or abundance of photosynthetically active vegetation. However, the map is not easy to visually comprehend. Let's add a colour palette to our NDVI map. We have already learnt how to add a colour palette to a single band image. Let's do that here again. 
+
+```JavaScript
+// Add color palette to the NDVI image.
+Map.addLayer(ndviImage, {min: -1, max: 1, palette: ['darkblue','blue','lightblue','red','yellow','green','darkgreen']}, "NDVI-colored");
+```
+![Figure 18. polygon](Figures/Prac05_ColoredNDVI.png)
+
+8. Explore different parts of the image and see how NDVI values vary with different substrate types. The higher NDVI is displayed in green colour. The lower NDVI is displayed in red-yellow colour. The negative NDVI is presented in shades of blue. Earlier we ploted spectral reflectance curve of 5 landcover types. How do you think would those landcover displayed in the current NDVI display? Would urban be red? Whats yellow? Can you distinguish between urban and bareland? What about forest and agriculture? Perhaps you can if you add more color you think?
+
+**Question***Now that you have the above script, how do you compute NDVI from a completely different region? Try it for yourself*
+
+9. I can now move the roi geometry to anywhere in the globe to obtain the NDVI map from that region. Click, drag, and drop the geometry to move to a new location. In the below example, I have moved the roi to the Tully region of Queensland which has massive sugar cane and banana plantations. The bright green colour represents the healthy and vigorous plantation while the yellow and red colour could be the sparse or harvested plantation. 
+
+10. I encourage you to play with the NDVI mapping, alter the date range, and explore regions that might be interesting to you - perhaps your hometown. And think about what could the colours represent. Once you are proficient with NDVI mapping, move the marker back to the Litchfield National Park region for the upcoming steps.  
+
+## 6. Computation of normalised difference water index
+
+1. We have learnt about NDWI in the lecture and you have reading material on NDWI available on your Canvas. Now, that we have a working NDVI script above, the easiest way to compute and map the NDWI is by borrowing the above script and making modifications where necessary. I encourage you to do the modification yourself. This is crucial in your learning process as well as completing the assignments. So, please complete the NDWI computation and mapping and check below if you have done it correctly.
+
+2. First of all, what you need to figure out the formula for NDWI and the corresponding bands. By looking at the lecture, I can see the formula for NDWI is (NIR-SWIR)/(NIR+SWIR). That's great, but Landsat-8 has two SWIR bands at about 1600 and 2200 nanometers. So, check back on the NDWI reference to find out if you need to use the SWIR1 or SWIR2 band. 
+
+3. Now, that you have identified the bands, you need to find out how those bands are referred to in GEE. Look into the data description window - under the bands tab. The NIR band is called "B5" and the SWIR1 band is called "B6". 
+
+4. Now you are ready to copy the NDVI script from above and do the modification. Use the script below to check if you can make all the modifications independently.
+
+```JavaScript
+//Define variable NDWI from equation
+var ndwiImage = anImage.expression(
+  "(NIR - SWIR1) / (NIR + SWIR1)",
+  {
+    NIR: anImage.select("B5"),    // NIR band in Landsat is B5
+    SWIR1: anImage.select("B6")    // SWIR1 band in Landsat is B6
+  });
+
+// Add a colour palette to the NDWI image.
+Map.addLayer(ndwiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDWI-colored");
+```
+![Figure 18. polygon](Figures/Prac05_NDWIAndNDVI.png)
+
+5. NDWI is a measure of liquid water molecules in vegetation canopies. NDWI is sensitive to the total amounts of liquid water in the landscape including vegetation. For example, the agriculture is well-watered vegetation, so appears appear blue in the above image, the gradient of vegetation dryness is observed in lightblue to blue colours whereas the red and brown colours represent the driest of the landscape perhaps the bare land with sparse or no vegetation. In the above script, I have played around with the min and max to enhance the features in the landscapes. You can always alter them to enhance the contrast on specific features.
+
+6. Don't forget to save your script.
+
+
+## 7. Complete script 
+```JavaScript
+// this script is missing a) definition of ROI, b) import of Landsat-8 image collection, c) definition of the 5 landcover types. 
+
+// Before using any new variable you need to define the variable using command "var" as below
+    var anImage = ee.Image(L8
+
+    // L8 is an image collection so lets filter the collection by the the date range we are interested in
+    .filterDate("2013-03-18", Date.now())
+
+    // Next we include a geographic filter to narrow the search to images at the location of our point
+    .filterBounds(roi)
+
+    // Next we will also sort the collection by a metadata property, in our case cloud cover is a very useful one
+    .sort("CLOUD_COVER")
+	
+    // Now lets select the first image out of this collection - i.e. the least cloudy image in the date range and over the Cairns
+    .first());  //Note that upto here was one line of script, hence, no use colon
+
+// And let's print the image to the Console.
+print("A Landsat-8 scene:", anImage);
+
+// Define visualization parameters in a JavaScript dictionary for true colour rendering. Bands 4,3 and 2 needed for RGB.
+var trueViz = {
+  bands: ["B4", "B3", "B2"],
+  min: 0,
+  max: 0.3
   };
 
 // Add the image to the map, using the visualization parameters.
-Map.addLayer(anImage, falseInfraredViz, "false-color composite");
+Map.addLayer(anImage, trueViz, "true-colour image");
 
-//Define land/water false-colour visualization parameters.
-var falseLandWaterViz= {
-  bands: ["B8", "B11", "B4"],
-  min: 0,
-  max: 3000,
-  };
+//Choose bands that you want to include in the spectral reflectance curve 
+var bandsToPlot = anImage.select('B[2-7]'); 
 
-// Add the image to the map, using the visualization parameters.
-Map.addLayer(anImage, falseLandWaterViz, "false-color Land/Water");
+// Define the feature collection to use to extract the spectral reflectance curve
+var landCoverRegions = ee.FeatureCollection([water,forest,urban,bareland,agriculture ]);
+
+// Create the reflectance chart
+var reflectanceChart = ui.Chart.image.regions({
+    image:bandsToPlot, // the image where to grab the reflectance data from
+    regions:landCoverRegions, // the regions within the image to sample from
+    reducer:ee.Reducer.mean(), // the reducer here we compute mean reflectance
+    seriesProperty: 'label'}); // use the labelproperty we defined earlier as the legend
+
+// Now print the chart. You need to print to see the chart
+print(reflectanceChart);
+
+// Define a list of Landsat-8 wavelengths for the Bands 1-7 to display in X-axis labels.
+var wavelengths = [482, 562, 655, 865, 1609, 2201];
+
+// Define the axis labels, title, linewidth, pointsize and line color.
+var plotOptions = {
+  title: 'Landsat-8  Surface reflectance spectra', // title of the chart
+  hAxis: {title: 'Wavelength (nanometers)'}, // horizontal axis title
+  vAxis: {title: 'Reflectance'}, // vertical axis title
+  lineWidth: 1, // width of the line in the chart
+  pointSize: 4, // display the reflectance values using a poitn sized 4
+  series: { // color of the different lines
+    0: {color: 'blue'}, // Water chart in blue
+    1: {color: 'green'}, // Forest chart in green
+    2: {color: 'red'}, // Urban chart in red
+    3: {color: 'yellow'}, // Bareland chart in yellow
+    4: {color: 'purple'} // Agriculture chart in purple
+}};
+
+// Create the reflectance chart
+var reflectanceChart1 = ui.Chart.image.regions({
+    image:bandsToPlot, // the image where to grab the reflectance data from
+    regions:landCoverRegions, // the regions within the image to sample from
+    reducer:ee.Reducer.mean(), // the reducer here we compute mean reflectance
+    seriesProperty: 'label', // use the labelproperty we defined earlier as the legend
+    xLabels: wavelengths}) // use wavelength value instead of B1--B7
+    .setOptions(plotOptions);
+// Now print the chart
+print(reflectanceChart1);
+
+//Define variable NDVI from equation
+var ndviImage = anImage.expression(
+  "(NIR - RED) / (NIR + RED)",
+  {
+    NIR: anImage.select("B5"),    // NIR band in Landsat is B5
+    RED: anImage.select("B4")    // Red band in Landsat is B4
+  });
+  
+  // Add the NDVI image to the map, using the visualization parameters.
+Map.addLayer(ndviImage, {min: 0, max: 1}, "NDVI");
+
+// Add color palette to the NDVI image.
+Map.addLayer(ndviImage, {min: -1, max: 1, palette: ['darkblue','blue','lightblue','red','yellow','green']}, "NDVI-colored");
+
+//Define variable NDWI from equation
+var ndwiImage = anImage.expression(
+  "(NIR - SWIR1) / (NIR + SWIR1)",
+  {
+    NIR: anImage.select("B5"),    // NIR band in Landsat is B5
+    SWIR1: anImage.select("B6")    // SWIR1 band in Landsat is B6
+  });
+
+// Add a colour palette to the NDWI image.
+Map.addLayer(ndwiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDWI-colored");
+
 ```
 -------
 ## 9. Summary
-Today is the first module of your journey in using Earth Engine for Earth Observation. Today we covered the very basics of the GEE interface, learnt basic JavaScript, and learned how to search for and find a broad range of remotely sensed datasets, learnt how to visualise single- and multi-band images and then learnt how to produce our own color combination. Next module we will look into a indices and spectral reflectance images. 
-
+Today is the second Module of your journey in using Earth Engine for Earth Observation. Today we covered filtering of image collection, extracting and plotting spectral reflectance values, and computation and display of spectral indices. In the Next Module, we will look into image classification and accuracy assessment.
 I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
 
 Thank you
