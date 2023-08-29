@@ -219,7 +219,7 @@ print(reflectanceChart1);
 
 9. Look into the chart and think about the spectral characteristics of different landcover types and how different wavelength interacts with the different landcover types. Refer to the lecture and reading materials to develop a detailed understanding. What do you learn from this chart? Do the spectral reflectance curve look similar to what we expect from our textbook understanding of the spectral reflectance curve. Do you see any anomalies (absorption/reflectance) that you find hard to understand? E.g. Why does agriculture have higher NIR reflectance compared to the forest? What factors do you think might induce errors in the spectral reflectance of different landcover? Is your ROI a true representation of the defined landcover - or could you do better? Remember that you can always use image enhancement to better visualise and thus better pick the features. 
 
-## 5. Computation of normalised difference vegetation index (NDVI)
+## 5. Computation of normalised difference vegetation index
 1. Now we will also use this same image to learn about spectral indices. We learnt about the NDVI index in our lecture. Here, we will learn how to compute and map the NDVI over a landscape region. First, do you recall the formula to compute the NDVI? The formula is (NIR-RED)/(NIR+RED).
 
 2. Now, what you need to know is, to find out how the NIR and Red bands are called in Landsat-8 images. Find that out. Hint hint [image description window, Prac01].
@@ -400,8 +400,9 @@ Map.addLayer(ndwiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue
 
 ```
 -------
-## 9. Summary
+## 8. Summary
 Today is the second Module of your journey in using Earth Engine for Earth Observation. Today we covered filtering of image collection, extracting and plotting spectral reflectance values, and computation and display of spectral indices. In the Next Module, we will look into image classification and accuracy assessment.
+
 I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
 
 Thank you
