@@ -372,7 +372,7 @@ print('Kappa coefficient: ', errorMatrix.kappa());
 ```
 -------
 ## 9. Summary
-Today is the second Module of your journey in using Earth Engine for Earth Observation. Today we covered filtering of image collection, extracting and plotting spectral reflectance values, and computation and display of spectral indices. In the Next Module, we will look into image classification and accuracy assessment.
+Today is the third Module of your journey in using Earth Engine for Earth Observation. Today we covered image classification and accuracy assessment. In the Next Module, we will look into working with drone-based images for agricultural applications.
 
 I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
 
