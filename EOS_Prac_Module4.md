@@ -12,7 +12,11 @@ The learning objectives of this Module are:
 - to access the accuracy of the classification results.
 
 ---------------------------------------------------
-## 1. Loading up the Landsat 8 image
+## 1. Drone-based MS images
+## 2. radiometric calibration
+## 3. Indices
+## 4. Linear modelling wrt ground data
+## 5. Apply model and critical assessment
 -------
 ## 9. Summary
 Today is the third Module of your journey in using Earth Engine for Earth Observation. Today we covered image classification and accuracy assessment. In the Next Module, we will look into working with drone-based images for agricultural applications.
