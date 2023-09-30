@@ -169,7 +169,10 @@ print ("Mean NDVI",ndviR191V5.get('ndvi'));
 
 | VineID | net Photosynthesis | NDVI |
 |--------|--------------------|------|
-| test | test| test|
+| R191V5 | test| test|
+| R191V5 | test| test|
+| R191V5 | test| test|
+| R191V5 | test| test|
 
 
 ## 6. Applying the regression model to satellite image
