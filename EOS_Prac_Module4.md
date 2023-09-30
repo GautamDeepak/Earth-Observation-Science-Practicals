@@ -167,12 +167,12 @@ print ("Mean NDVI",ndviR191V5.get('ndvi'));
 ## 5. Linear modelling of ground observation using aerial observation
 1. Okay, now we have the NDVI values from the canopy pixels for the four observation vines. We also have corresponding net photosynthesis value for the corresponding vines measured on the ground using a specialist instrument. Here we will perform a simple linear regression using the four datapoints that we have. Four datapoints is in no way sufficient for a robust modelling, but for this exercise this is enough. Below I have put together the NDVI values I got and corresponding net photosynthesis we measured. 
 
-| VineID | net Photosynthesis | NDVI |
+| VineID | net Photosynthesis [\micro mol of Co2 m-2s-1]| NDVI |
 |--------|--------------------|------|
-| R191V5 | test| test|
-| R191V5 | test| test|
-| R191V5 | test| test|
-| R191V5 | test| test|
+| R191V5 | 4.42| 0.53|
+| R201V11 | test| 0.55|
+| R206V8 | test| 0.59|
+| R206V23 | test| 0.53|
 
 
 ## 6. Applying the regression model to satellite image
