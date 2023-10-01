@@ -197,6 +197,7 @@ var netPhot = maskedNDVI.multiply(95.101).add(-43.925).rename('netPhoto');
 Map.addLayer(netPhot,{min:0,max:16,palette:['red', 'lightyellow', 'yellow', 'green', 'darkgreen']},"estimated - Net Photosynthesis");
 
 ```
+![Figure 1. Leica BLK360 scanning](Figures/Prac11_netPhotosynthesis.png)
 
 2. In above display, I used a min of 0 and max of 16 and displayed using 'red', 'lightyellow', 'yellow', 'green', 'darkgreen' color. Also given our NDVI mask we applied earlier, red color in the map likely represents vegetation but with very low photosynthesis so, these could be interrow grass or stressed grapevines. LightYellow and Yellow color likely represent again vegetation with moderate photosynthesis, and the Green and DarkGreen color represents vegetation with high photosynthesis. Dark green color is likely where we have surplus water availability and healthy plant. 
 
