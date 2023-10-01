@@ -170,13 +170,35 @@ print ("Mean NDVI",ndviR191V5.get('ndvi'));
 | VineID | net Photosynthesis [\micro mol of Co2 m-2s-1]| NDVI |
 |--------|--------------------|------|
 | R191V5 | 4.42| 0.53|
-| R201V11 | test| 0.55|
-| R206V8 | test| 0.59|
-| R206V23 | test| 0.53|
+| R201V11 | 9.85| 0.55|
+| R206V8 | 11.69| 0.59|
+| R206V23 | 7.55| 0.53|
+
+2. For the modelling, we will work in Microsoft Excel (because its simpler there). First take your data points to Microsoft Excel.
+![Figure 1. Leica BLK360 scanning](Figures/Prac11_toExcel.png)
+
+3. Now select the two columns NDVI and netPhotosyntheis and plot a scatter plot (available under insert tab as shown in figure below)
+![Figure 1. Leica BLK360 scanning](Figures/Prac11_scatterPlot.png)
+
+4. Now you need to plot a trendline. Right click on any of the data points and click on 'add trendline' and make sure you select the 'Linear' treand and tick the 'display equation on chart' and 'Display R-squared value on chart' boxes.
+
+![Figure 1. Leica BLK360 scanning](Figures/Prac11_addTrendline.png)
+
+5. At this point you have got a linear trend equation describing the relation between the NDVI and netPhotosyntheis variable. What equation did you get? I got netPhotosynthesis = 95.101/timesNDVI-43.925. If I were to use this equation to estimate the netPhtosynthesis, the goodness of the fit is 0.7353. In other words, 73.53% of variance in my netPhotosynthesis values are explained by the NDVI values. Some proportion of variance in my netPhotosyntheis is not explained by NDVI value. 
 
 
 ## 6. Applying the regression model to satellite image
+1. Now, I can take my equation back to Google Earth Engine and apply the model to estimate netPhotosynthesis for the entire map. The Map is expected to have an R-squared of 0.7353 as we estimated in Excel. 
+ 
+ ```JavaScript
+ // implement the formula here
+var netPhot = maskedNDVI.multiply(95.101).add(-43.925).rename('netPhoto');
+// add the estimated netPhotosynthesis map
+Map.addLayer(netPhot,{min:0,max:16,palette:['red', 'lightyellow', 'yellow', 'green', 'darkgreen']},"estimated - Net Photosynthesis");
 
+```
+
+2. In above display, I used a min of 0 and max of 16 and displayed using 'red', 'lightyellow', 'yellow', 'green', 'darkgreen' color. Also given our NDVI mask we applied earlier, red color in the map likely represents vegetation but with very low photosynthesis so, these could be interrow grass or stressed grapevines. LightYellow and Yellow color likely represent again vegetation with moderate photosynthesis, and the Green and DarkGreen color represents vegetation with high photosynthesis. Dark green color is likely where we have surplus water availability and healthy plant. 
 -------
 ## 9. Summary
 Today is the final Module of your journey in using Earth Engine for Earth Observation. Today we covered image classification and accuracy assessment. In the Next Module, we will look into working with drone-based images for agricultural applications.
