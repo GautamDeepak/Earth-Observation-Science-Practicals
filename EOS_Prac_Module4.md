@@ -199,9 +199,11 @@ Map.addLayer(netPhot,{min:0,max:16,palette:['red', 'lightyellow', 'yellow', 'gre
 ```
 
 2. In above display, I used a min of 0 and max of 16 and displayed using 'red', 'lightyellow', 'yellow', 'green', 'darkgreen' color. Also given our NDVI mask we applied earlier, red color in the map likely represents vegetation but with very low photosynthesis so, these could be interrow grass or stressed grapevines. LightYellow and Yellow color likely represent again vegetation with moderate photosynthesis, and the Green and DarkGreen color represents vegetation with high photosynthesis. Dark green color is likely where we have surplus water availability and healthy plant. 
+
+3. Do you think this map is accurate? Why/Why not? If you were doing this exercise for living, where would you make amendments to achieve a robust estimation of plants photosynthetic activity?
 -------
 ## 9. Summary
-Today is the final Module of your journey in using Earth Engine for Earth Observation. Today we covered image classification and accuracy assessment. In the Next Module, we will look into working with drone-based images for agricultural applications.
+Today is the final Module of your journey in using Earth Engine for Earth Observation. Today we worked with drone-based images in agricultural setting and used ground-data to model plants parameter.
 
 I hope you found this prac useful. I encourage you to play with the script, make changes, and make mistakes. A recorded video of this prac can be found on your Canvas shell.
 
