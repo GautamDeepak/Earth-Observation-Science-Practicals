@@ -52,7 +52,7 @@ print(UAVImage);
 
 ```JavaScript
 // display the true color composite
-Map.addLayer(UAVimage,{bands:['b3','b2','b1'],min:5000,max:40000},"UAV Image True color");
+Map.addLayer(UAVImage,{bands:['b3','b2','b1'],min:5000,max:40000},"UAV Image True color");
 ```
 
 7. The image has been displayed but we dont kow where in the world the image is. Add following lines below so when the image is displayed, your map automatically pans over to the image. 
@@ -114,11 +114,11 @@ Map.addLayer(maskedNDVI, {min: 0.4, max: 1, palette: ['yellow','green','darkgree
 1. A bit of context - this is one of the vineyard where we had intensive data collection in from 2018 to 2021. Our data included several ground-based data acquiring plant specific biophysical and physiological data as well as drone-based imaging. We had fixed vines spatially spread that we would go to every month and acquire data temporally. Below are four coordinates of 4 out of 32 vines that we measured. We will use the coordinates to define our vine position and sample the NDVI values form the masked NDVI image that we have displayed. 
 
 ```JavaScript
-// Define the coordinate sof the four vines
-r191v5 = ee.Geometry.Point([140.82946004591133, -37.286255642184436]);
-r201v11 = ee.Geometry.Point([140.82935912779715, -37.28602196707126]);
-r206v8 = ee.Geometry.Point([140.82943927982373, -37.28590726084841]);
-r206v23 = ee.Geometry.Point([140.82904924791364, -37.28587241960449]);
+// Define the coordinates of the four vines
+var r191v5 = ee.Geometry.Point([140.82946004591133, -37.286255642184436]);
+var r201v11 = ee.Geometry.Point([140.82935912779715, -37.28602196707126]);
+var r206v8 = ee.Geometry.Point([140.82943927982373, -37.28590726084841]);
+var r206v23 = ee.Geometry.Point([140.82904924791364, -37.28587241960449]);
 ```
 
 2. In the above definition, r191v5 means the vine is in row number 191 (every row has its own numbering) and vine number 5 within that row. You can hover your curser over the geometry definition on your script and click on "convert" to move the geometries to the import section.
