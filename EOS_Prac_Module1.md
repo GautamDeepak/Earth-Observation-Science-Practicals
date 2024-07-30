@@ -112,7 +112,7 @@ print('My height is:', height);
  
 6. Try to remember other satellites that were mentioned in the lecture. Try to search for them - can you find them in the GEE? 
  
-**Question:** *Name three satellites that you think are most useful in the context of Earth Observation and see if the data * 
+**Question:** *Name three satellites that you think are most useful in the context of Earth Observation and see if the data exists in GEE * 
 
 ## 4. Finding information about a specific data/image
 
