@@ -93,7 +93,7 @@ var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
 var TrainingDataset = anImage.select(bands).sampleRegions({ // sample the reflectance from selected bands
   collection: LandCoverClasses, // save the reflectance to the LandCoverClasses
   properties: ['landcover'],
-  scale: 30
+  scale: 30 // scale comes from the spatial resolution of pixel
 });
 
 // print our training dataset
@@ -306,7 +306,7 @@ var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
 var TrainingDataset = anImage.select(bands).sampleRegions({ // sample the reflectance from selected bands
   collection: LandCoverClasses, // save the reflectance to the LandCoverClasses
   properties: ['landcover'],
-  scale: 30
+  scale: 30 // scale comes from the spatial resolution of pixel
 });
 
 // print our training dataset
