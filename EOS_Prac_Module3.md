@@ -90,7 +90,7 @@ print('The land cover feature collection is: ',LandCoverClasses);
 var bands = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
 
 // add new properties to the "LandCoverClasses" - the new property is the reflectance data from the above bands
-TrainingDataset = anImage.select(bands).sampleRegions({ // sample the reflectance from selected bands
+var TrainingDataset = anImage.select(bands).sampleRegions({ // sample the reflectance from selected bands
   collection: LandCoverClasses, // save the reflectance to the LandCoverClasses
   properties: ['landcover'],
   scale: 30
