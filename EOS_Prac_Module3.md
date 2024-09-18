@@ -14,7 +14,7 @@ The learning objectives of this Module are:
 ---------------------------------------------------
 ## 1. Loading up the Landsat 8 image
 
-1. The first step is to get a cloud-free image with which to work. We have already started working with Landsat images in previous pracs. Today Prac will again use the Landsat 8 image. Look for "USGS Landsat 8 Collection 1 Tier 1 TOA Reflectance" imagery, import it, and rename the imageCollection to L8. Refer to previous pracs if you don't know how to search for, import, and rename imageries.
+1. The first step is to get a cloud-free image with which to work. We have already started working with Landsat images in previous pracs. Today Prac will again use the Landsat 8 image. Look for "USGS Landsat 8 Collection 2 Tier 1 TOA Reflectance" imagery, import it, and rename the imageCollection to L8. Refer to previous pracs if you don't know how to search for, import, and rename imageries.
 
 2. Use the marker geometry tool (teardrop icon) from the geometry tools and draw a single point in the region of interest - let's use the town of Cairns for this example. Then 'Exit' from the drawing tools or select the hand icon. Note that a new variable is created in the imports section, containing the single point, imported as a Geometry. Change the name of this import to "roi" - short for region of interest.
 
