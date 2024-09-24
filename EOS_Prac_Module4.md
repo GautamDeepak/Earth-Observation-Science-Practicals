@@ -187,7 +187,7 @@ print ("Mean NDVI",ndviR191V5.get('ndvi'));
 5. At this point you have got a linear trend equation describing the relation between the NDVI and netPhotosyntheis variable. What equation did you get? I got netPhotosynthesis = 95.101/timesNDVI-43.925. If I were to use this equation to estimate the netPhtosynthesis, the goodness of the fit is 0.7353. In other words, 73.53% of variance in my netPhotosynthesis values are explained by the NDVI values. Some proportion of variance in my netPhotosyntheis is not explained by NDVI value. 
 
 
-## 6. Applying the regression model to satellite image
+## 6. Applying the regression model to UAV image
 1. Now, I can take my equation back to Google Earth Engine and apply the model to estimate netPhotosynthesis for the entire map. The Map is expected to have an R-squared of 0.7353 as we estimated in Excel. 
  
  ```JavaScript
