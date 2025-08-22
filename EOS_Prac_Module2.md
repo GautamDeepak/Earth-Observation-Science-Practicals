@@ -267,31 +267,31 @@ Map.addLayer(ndviImage, {min: -1, max: 1, palette: ['darkblue','blue','lightblue
 
 10. I encourage you to play with the NDVI mapping, alter the date range, and explore regions that might be interesting to you - perhaps your hometown. And think about what could the colours represent. Once you are proficient with NDVI mapping, move the marker back to the Litchfield National Park region for the upcoming steps.  
 
-## 6. Computation of normalised difference water index
+## 6. Computation of normalised difference moisture index
 
-1. We have learnt about NDWI in the lecture and you have reading material on NDWI available on your Canvas. Now, that we have a working NDVI script above, the easiest way to compute and map the NDWI is by borrowing the above script and making modifications where necessary. I encourage you to do the modification yourself. This is crucial in your learning process as well as completing the assignments. So, please complete the NDWI computation and mapping and check below if you have done it correctly.
+1. We have learnt about NDMI in the lecture and you have reading material on NDMI available on your Canvas. Now, that we have a working NDVI script above, the easiest way to compute and map the NDMI is by borrowing the above script and making modifications where necessary. I encourage you to do the modification yourself. This is crucial in your learning process as well as completing the assignments. So, please complete the NDMI computation and mapping and check below if you have done it correctly.
 
-2. First of all, what you need to figure out the formula for NDWI and the corresponding bands. By looking at the lecture, I can see the formula for NDWI is (NIR-SWIR)/(NIR+SWIR). That's great, but Landsat-8 has two SWIR bands at about 1600 and 2200 nanometers. So, check back on the NDWI reference to find out if you need to use the SWIR1 or SWIR2 band. 
+2. First of all, what you need to figure out the formula for NDMI and the corresponding bands. By looking at the lecture, I can see the formula for NDMI is (NIR-SWIR)/(NIR+SWIR). That's great, but Landsat-8 has two SWIR bands at about 1600 and 2200 nanometers. So, check back on the NDMI reference to find out if you need to use the SWIR1 or SWIR2 band. 
 
 3. Now, that you have identified the bands, you need to find out how those bands are referred to in GEE. Look into the data description window - under the bands tab. The NIR band is called "B5" and the SWIR1 band is called "B6". 
 
 4. Now you are ready to copy the NDVI script from above and do the modification. Use the script below to check if you can make all the modifications independently.
 
 ```JavaScript
-//Define variable NDWI from equation
-var ndwiImage = anImage.expression(
+//Define variable NDMI from equation
+var ndmiImage = anImage.expression(
   "(NIR - SWIR1) / (NIR + SWIR1)",
   {
     NIR: anImage.select("B5"),    // NIR band in Landsat is B5
     SWIR1: anImage.select("B6")    // SWIR1 band in Landsat is B6
   });
 
-// Add a colour palette to the NDWI image.
-Map.addLayer(ndwiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDWI-colored");
+// Add a colour palette to the NDMI image.
+Map.addLayer(ndmiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDMI-colored");
 ```
 ![Figure 18. polygon](Figures/Prac05_NDWIAndNDVI.png)
 
-5. NDWI is a measure of liquid water molecules in vegetation canopies. NDWI is sensitive to the total amounts of liquid water in the landscape including vegetation. For example, the agriculture is well-watered vegetation, so appears appear blue in the above image, the gradient of vegetation dryness is observed in lightblue to blue colours whereas the red and brown colours represent the driest of the landscape perhaps the bare land with sparse or no vegetation. In the above script, I have played around with the min and max to enhance the features in the landscapes. You can always alter them to enhance the contrast on specific features.
+5. NDMI is a measure of liquid water molecules in vegetation canopies. NDMI is sensitive to the total amounts of liquid water in the landscape including vegetation. For example, the agriculture is well-watered vegetation, so appears appear blue in the above image, the gradient of vegetation dryness is observed in lightblue to blue colours whereas the red and brown colours represent the driest of the landscape perhaps the bare land with sparse or no vegetation. In the above script, I have played around with the min and max to enhance the features in the landscapes. You can always alter them to enhance the contrast on specific features.
 
 6. Don't forget to save your script.
 
@@ -387,16 +387,16 @@ Map.addLayer(ndviImage, {min: 0, max: 1}, "NDVI");
 // Add color palette to the NDVI image.
 Map.addLayer(ndviImage, {min: -1, max: 1, palette: ['darkblue','blue','lightblue','red','yellow','green']}, "NDVI-colored");
 
-//Define variable NDWI from equation
-var ndwiImage = anImage.expression(
+//Define variable NDMI from equation
+var ndmiImage = anImage.expression(
   "(NIR - SWIR1) / (NIR + SWIR1)",
   {
     NIR: anImage.select("B5"),    // NIR band in Landsat is B5
     SWIR1: anImage.select("B6")    // SWIR1 band in Landsat is B6
   });
 
-// Add a colour palette to the NDWI image.
-Map.addLayer(ndwiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDWI-colored");
+// Add a colour palette to the NDMI image.
+Map.addLayer(ndmiImage, {min: -0.6, max: 0.6, palette: ['brown','red','lightblue','blue']}, "NDMI-colored");
 
 ```
 -------
